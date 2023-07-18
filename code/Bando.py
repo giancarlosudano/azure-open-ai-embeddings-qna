@@ -159,10 +159,16 @@ try:
     {question} will be replaced with the user's question.
         """
 
-    col1, col2, col3 = st.columns([1,2,1])
-    with col1:
-        st.image(os.path.join('images','microsoft.png'))
+    st.markdown("**Bando GDR 792 (Copilot prototype)**")
 
+    col1, col2, col3 = st.columns([1,1,1])
+    
+    with col1:
+        st.image(os.path.join('images','logo-regione-veneto.jpg'), width=250)
+    with col3:
+        st.write("")
+        st.image(os.path.join('images','unione-europea.jfif'), width=150)
+    
     col1, col2, col3 = st.columns([2,2,2])
     with col1:
         st.button("Check deployment", on_click=check_deployment)
@@ -177,8 +183,16 @@ try:
             st.text_area("Custom Prompt", key='custom_prompt', on_change=check_variables_in_prompt, placeholder= custom_prompt_placeholder,help=custom_prompt_help, height=150)
             st.selectbox("Language", [None] + list(available_languages.keys()), key='translation_language')
 
-
-    question = st.text_input("Azure OpenAI Semantic Answer", value=st.session_state['askedquestion'], key="input"+str(st.session_state ['input_message_key']), on_change=questionAsked)
+    
+    st.markdown('**Domande preimpostate:**')
+    with st.container():
+        st.button("Quale condizione della solidità economica finanziaria mi fa ottenere due punti (massimo del punteggio)?", key=10001, on_click=ask_followup_question, args=("Quale condizione della solidità economica finanziaria mi fa ottenere due punti (massimo del punteggio)?", ))
+        st.button("Fino a che ora e che giorno posso presentare la domanda di sostegno?", key=10002, on_click=ask_followup_question, args=("Fino a che ora e che giorno posso presentare la domanda di sostegno?", ))
+        st.button("L’intervento formativo 'Comparti vari' ha avviato il corso con un totale allievi di 22, di cui 13 non hanno completato il percorso. Cosa succede?", key=10003, on_click=ask_followup_question, args=("L’intervento formativo 'Comparti vari' ha avviato il corso con un totale allievi di 22, di cui 13 non hanno completato il percorso. Cosa succede?", ))
+        st.button("Cosa devono riportare le fatture e i titoli di spesa?", key=10004, on_click=ask_followup_question, args=("Cosa devono riportare le fatture e i titoli di spesa?", ))
+        st.button("Quanti giorni ho a disposizione per integrare nel caso una rendicontazione carente?", key=10005, on_click=ask_followup_question, args=("Quanti giorni ho a disposizione per integrare nel caso una rendicontazione carente?", ))
+        st.button("Sto liquidando la mia attività (in maniera volontaria), posso presentare la domanda?", key=10006, on_click=ask_followup_question, args=("Sto liquidando la mia attività (in maniera volontaria), posso presentare la domanda?", ))
+    question = st.text_input("Fai una domanda sul Bando", value=st.session_state['askedquestion'], key="input"+str(st.session_state ['input_message_key']), on_change=questionAsked)
 
     # Answer the question if any
     if st.session_state.askedquestion != '':
@@ -197,12 +211,12 @@ try:
     if st.session_state['sources'] or st.session_state['context']:
         st.session_state['response'], sourceList, matchedSourcesList, linkList, filenameList = llm_helper.get_links_filenames(st.session_state['response'], st.session_state['sources'])
         st.write("<br>", unsafe_allow_html=True)
-        st.markdown("Answer: " + st.session_state['response'])
+        st.markdown("**Risposta:** " + st.session_state['response'])
  
     # Display proposed follow-up questions which can be clicked on to ask that question automatically
     if len(st.session_state['followup_questions']) > 0:
         st.write("<br>", unsafe_allow_html=True)
-        st.markdown('**Proposed follow-up questions:**')
+        st.markdown('**Possibili altre domande correlate:**')
     with st.container():
         for questionId, followup_question in enumerate(st.session_state['followup_questions']):
             if followup_question:
