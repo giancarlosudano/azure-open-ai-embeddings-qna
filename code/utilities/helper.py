@@ -85,7 +85,7 @@ class LLMHelper:
             else:
                 self.vector_store_full_address = f"{self.vector_store_protocol}{self.vector_store_address}:{self.vector_store_port}"
 
-        self.chunk_size = int(os.getenv('CHUNK_SIZE', 500))
+        self.chunk_size = int(os.getenv('CHUNK_SIZE', 3000))
         self.chunk_overlap = int(os.getenv('CHUNK_OVERLAP', 100))
         self.document_loaders: BaseLoader = WebBaseLoader if document_loaders is None else document_loaders
         self.text_splitter: TextSplitter = TokenTextSplitter(chunk_size=self.chunk_size, chunk_overlap=self.chunk_overlap) if text_splitter is None else text_splitter

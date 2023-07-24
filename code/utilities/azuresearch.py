@@ -189,7 +189,7 @@ class AzureSearch(VectorStore):
             raise Exception(response)
 
     def similarity_search(
-        self, query: str, k: int = 4, **kwargs: Any
+        self, query: str, k: int = 3, **kwargs: Any
     ) -> List[Document]:
         """
         Returns the most similar indexed documents to the query text.
